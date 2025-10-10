@@ -10,6 +10,7 @@ const Wrapper = styled(Box)`
         font-size : 16px ;
         align-items: center ;
     }
+        
 `
 
 const Container = styled(Box)`
