@@ -1,5 +1,11 @@
 
 import {Dialog,Box,TextField,Typography,Button,styled} from '@mui/material';
+import { useState } from 'react';
+
+// UserDefined Import 
+
+import { authenticateSignup } from '../../service/api';
+
 
 // Custom CSS
 
@@ -14,7 +20,7 @@ const Image = styled(Box)`
 
   background : #2874f0  url(https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/login_img_c4a81e.png) center 60% no-repeat;
   height : 100% ;
-  width: 30% ;
+  width: 28% ;
   padding:45px 35px ;
   & > p , & > h5{
       color:#FFFFFF ;
@@ -64,7 +70,9 @@ const RequestOTP = styled(Button)`
 const Text = styled(Typography)`
 
     font-size:12px ;
-    color:#878787 ;     
+    color:#878787 ; 
+    margin-Top : 20px ;
+    margin-Bottom:20px ;    
 
 ` ;
 
@@ -78,11 +86,57 @@ const CreateAccount = styled(Typography)`
     cursor: pointer ; 
 ` ;
 
+const accountInitialValue = {
+    login:{
+      view:'login' ,
+      heading:"Login",
+      subHeading:"Get access to your Orders, Wishlist and Recommendations"
+    },
+    signup :{
+      view:'signup',
+      heading: "Looks like you're new here !",
+      subHeading:"Sign up with your mobile number to get started"
+    }
+
+}
+
+const signupInitial = {
+
+  firstname :'',
+  lastname : '',
+  username :'',
+  email :'',
+  password :'',
+  phone :''
+}
 
 const LoginDailog = ({open,setOpen})=> {
+// Creating State for Toggling Login and Register
+  const [account,toggleAccount] = useState(accountInitialValue.login) ;
+
+  
+// Creating state to Store Input Field from Registration
+const [signup,setSignup] = useState(signupInitial) ;
+
+
 // Toggling the Login Page if we are Click anywhere else Login window should disappear 
   const handleClose =()=>{
     setOpen(false) ;
+    toggleAccount(accountInitialValue.login);
+  }
+
+  const toggleSignUp = ()=>{
+    toggleAccount(accountInitialValue.signup) ;
+  }
+
+  const onInputChange = (e)=>{
+    // ...signup -> SpreadOperator 
+    setSignup({...signup,[e.target.name]:e.target.value})
+    
+  }
+
+  const signUpUser = async()=>{
+     let response = await authenticateSignup(signup);
   }
 
   return (
@@ -97,18 +151,34 @@ const LoginDailog = ({open,setOpen})=> {
         <Component>
           <Box style={{display:'flex',height:'100%'}} >
               <Image>
-                <Typography variant='h5'>Login</Typography>
-                <Typography style={{marginTop:20}}>Get access to your Orders, Wishlist and Recommendations </Typography>
+                <Typography variant='h5'>{account.heading}</Typography>
+                <Typography style={{marginTop:20}}>{account.subHeading} </Typography>
               </Image>
-              <Wrapper>
-                    <TextField  variant='standard' label="Enter Email/Mobile Number"/>
-                    <TextField  variant='standard' label="Enter Password"/>
-                    <Text>By continuing, you agree to Flipkart's Term of Use and Privacy Policy</Text>
-                    <LoginButton>Login</LoginButton>
-                    <Typography style={{textAlign:'center'}}>OR</Typography>
-                    <RequestOTP>Request OTP</RequestOTP>
-                    <CreateAccount>New to Flipkart ? Create an account ? </CreateAccount>
-              </Wrapper>
+              { account.view === 'login' ? 
+                    <Wrapper>
+                          <TextField  variant='standard' label="Enter Email/Mobile Number"/>
+                          <TextField  variant='standard' label="Enter Password"/>
+                          <Text>By continuing, you agree to Flipkart's Term of Use and Privacy Policy</Text>
+                          <LoginButton>Login</LoginButton>
+                          <Typography style={{textAlign:'center'}}>OR</Typography>
+                          <RequestOTP>Request OTP</RequestOTP>
+                          <CreateAccount onClick={()=> toggleSignUp()}>New to Flipkart ? Create an account ? </CreateAccount>
+                    </Wrapper>
+
+                    :
+
+                          <Wrapper>
+                          <TextField  variant='standard' onChange={(e)=>onInputChange(e)} name= 'firstname' label="Enter First Name"/>
+                          <TextField  variant='standard' onChange={(e)=>onInputChange(e)} name='lastname' label="Enter Last Name"/>
+                          <TextField  variant='standard' onChange={(e)=>onInputChange(e)} name='username' label="Enter Username"/>
+                          <TextField  variant='standard' onChange={(e)=>onInputChange(e)} name= 'email' label="Enter Email"/>
+                          <TextField  variant='standard' onChange={(e)=>onInputChange(e)} name= 'password' label="Enter Password"/>
+                          <TextField  variant='standard' onChange={(e)=>onInputChange(e)} name= 'phone' label="Enter Phone"/>
+                          <LoginButton onClick={()=> signUpUser()}>Continue</LoginButton>
+                          
+                    </Wrapper>
+
+              }
 
           </Box>
         </Component>
