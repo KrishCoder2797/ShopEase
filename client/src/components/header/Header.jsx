@@ -1,7 +1,7 @@
 // Importing material UI component
 
 import {AppBar , Toolbar,Box,styled,Typography} from '@mui/material';
-
+import { Link } from 'react-router-dom';
 
 //Impoting Component 
 import Search from './Search'
@@ -12,15 +12,21 @@ import CustomButtons from './CustomButtons';
 const StyledHeader = styled(AppBar)`
     background: #2874f0;
     height:55px ;
-`
-const Component = styled(Box)`
+
+` ;
+const Component = styled(Link)`
 margin-left :12% ;
-line-height:0
-`
+line-height:0;
+text-decoration: none ;
+color:inherit ;
+
+`;
+
 const SubHeading = styled(Typography)`
 font-size:10px ;
 font-style:italic;
-`
+
+`;
 
 // Styling component of HTML
 const PlusImage = styled('img')({
@@ -31,7 +37,8 @@ const PlusImage = styled('img')({
 
 const CustomButtonWrapper = styled(Box)`
     margin:0 7% 0 7% ;
-`
+
+    ` ;
 
 const Header = ()=>{
     const logoURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_8d85f4.png';
@@ -39,7 +46,7 @@ const Header = ()=>{
     return (
      <StyledHeader>
         <Toolbar style={{minHeight:55}}>
-            <Component>
+            <Component to= '/'>
                 <img src={logoURL} alt="logo" style={{width:75}} />
                 <Box style={{display:"flex"}}>
                 <SubHeading>Explore&nbsp;

@@ -3,14 +3,14 @@
 import { Box } from '@mui/material';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import {BrowserRouter,Routes,Route} from 'react-router-dom' ;
 
 // Components (Custom Imports )
 
 import Header from './components/header/Header'
 import Home from './components/home/Home';
 import DataProvider from './context/DataProvider';
-
+import DetailView from './components/details/DetailView';
 
 
 
@@ -18,13 +18,21 @@ import DataProvider from './context/DataProvider';
 function App() {
   return (
     <DataProvider>
+      <BrowserRouter>
 
-      <Header />   {/* Fixed at one position */}
-      
-      <Box style={{marginTop:54}}>
-       <Home/>
-      </Box>
-      <ToastContainer position="top-center" autoClose={2000} />
+        <Header />   {/* Fixed at one position */}
+        
+        <Box style={{marginTop:54}}>
+          <Routes> 
+               
+            <Route path= '/' element={<Home/>} />
+            <Route path = '/product/:id' element={ <DetailView/>} />
+            
+          </Routes>
+        </Box>
+        <ToastContainer position="top-center" autoClose={2000} />
+
+      </BrowserRouter>
     </DataProvider>
     
   );
