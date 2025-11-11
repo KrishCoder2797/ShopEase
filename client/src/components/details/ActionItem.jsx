@@ -45,14 +45,19 @@
 import { Box, Button, styled, Stack } from "@mui/material";
 import { ShoppingCart as Cart, FlashOn as Flash } from "@mui/icons-material";
 
-const LeftContainer = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 20px;
-  gap: 16px;
-`;
+const LeftContainer = styled(Box)(({theme}) => ({
+
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          padding: '20px',
+          gap: '16px',
+          [theme.breakpoints.down('md')]:{
+            padding:'10px' 
+          }
+}))
+ 
 
 const ImageContainer = styled(Box)`
   border: 1px solid #f0f0f0;

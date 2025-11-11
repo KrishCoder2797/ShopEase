@@ -84,6 +84,8 @@ import { Box, Typography, styled, Grid } from "@mui/material";
 
 import { getProductDetails } from "../../redux/actions/productActions";
 import ActionItem from "./ActionItem";
+import ProductDetail from "./ProductDetail";
+
 
 const Component = styled(Box)`
   background: #f2f2f2;
@@ -91,12 +93,17 @@ const Component = styled(Box)`
   padding: 20px;
 `;
 
-const Container = styled(Grid)`
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-`;
+const Container = styled(Grid)(({theme}) =>({
+   background: '#ffffff',
+  borderRradius: '8px',
+  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+  [theme.breakpoints.down('md')]:{
 
+    margin:0
+  }
+
+}));
+ 
 const RightContainer = styled(Box)`
   margin-top: 50px;
   padding: 20px;
@@ -108,8 +115,7 @@ const DetailView = () => {
 
   const { loading, product } = useSelector((state) => state.getProductDetails);
 
-  const fassured =
-    "https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/fa_62673a.png";
+  
 
   useEffect(() => {
     if (product && id !== product.id) dispatch(getProductDetails(id));
@@ -127,34 +133,9 @@ const DetailView = () => {
          
           <Grid item lg={8} md={8} sm={8} xs={12}>
             <RightContainer>
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {product.title.longTitle}
-              </Typography>
+              
 
-              <Typography sx={{ marginTop: 1, color: "#878787", fontSize: 14 }}>
-                8 Ratings & 1 Review
-                <Box component="span">
-                  <img
-                    src={fassured}
-                    alt="fassured"
-                    style={{ width: 77, marginLeft: 20, verticalAlign: "middle" }}
-                  />
-                </Box>
-              </Typography>
-
-              <Typography sx={{ marginTop: 2 }}>
-                <Box component="span" sx={{ fontSize: 28, fontWeight: 600 }}>
-                  ₹{product.price.cost}
-                </Box>
-                &nbsp;&nbsp;&nbsp;
-                <Box component="span" sx={{ color: "#878787" }}>
-                  <strike>₹{product.price.mrp}</strike>
-                </Box>
-                &nbsp;&nbsp;&nbsp;
-                <Box component="span" sx={{ color: "green" }}>
-                  {product.price.discount}
-                </Box>
-              </Typography>
+              <ProductDetail product={product} />
             </RightContainer>
           </Grid>
         </Container>
@@ -165,3 +146,6 @@ const DetailView = () => {
 
 export default DetailView;
   
+
+
+
