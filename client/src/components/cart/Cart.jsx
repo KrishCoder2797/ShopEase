@@ -5,6 +5,8 @@ import { Grid , Box,Typography , styled , Button} from "@mui/material";
 import CartItem from "./CartItem";
 import TotalView from "./TotalView";
 import EmptyCart from "./EmptyCart";
+import { payUsingPaytm } from "../../service/api";
+import { post } from "../../utils/paytm";
 
 const Container = styled(Grid)(({theme}) =>({
 
@@ -57,6 +59,18 @@ const LeftComponent = styled(Grid)(({theme}) =>({
 const  Cart = () => {
 
   const {cartItems }  = useSelector(state=>state.cart) ;
+
+  const buyNow = async () =>{
+  
+          let response = await payUsingPaytm({amount:500 , email :'krushnagajare.99@gmail.com'}) ;
+          let information = {
+                action:'https://securegw-stage.paytm.in/order/process' ,
+                params : response
+  
+          }
+          post(information) ;
+  
+      }
     
   return (
     <>
@@ -75,7 +89,7 @@ const  Cart = () => {
                                 ))
                             }
                             <ButtonWrapper>
-                                <StyledButton>Place Order</StyledButton>
+                                <StyledButton onClick={()=>buyNow()}>Place Order</StyledButton>
                             </ButtonWrapper>
 
                         </LeftComponent>

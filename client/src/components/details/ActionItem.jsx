@@ -50,6 +50,8 @@ import { useState } from "react";
 
 
 import {addToCart} from '../../redux/actions/cartActions'   ;
+import { payUsingPaytm } from "../../service/api";
+import {post} from "../../utils/paytm" ;
 
 const LeftContainer = styled(Box)(({theme}) => ({
 
@@ -105,6 +107,17 @@ const ActionItem = ({ product }) => {
 
     }
 
+    const buyNow = async () =>{
+
+        let response = await payUsingPaytm({amount:500 , email :'krushnagajare.99@gmail.com'}) ;
+        let information = {
+              action:'https://securegw-stage.paytm.in/order/process' ,
+              params : response
+
+        }
+        post(information) ;
+
+    }
 
 
   return (
@@ -121,7 +134,7 @@ const ActionItem = ({ product }) => {
         <StyledButton variant="contained" onClick={()=> addItemToCart()} sx={{ background: "#ff9f00" }}>
           <Cart sx={{ mr: 1 }} /> Add to Cart
         </StyledButton>
-        <StyledButton variant="contained" sx={{ background: "#fb541b" }}>
+        <StyledButton variant="contained" onClick={()=>buyNow()} sx={{ background: "#fb541b" }}>
           <Flash sx={{ mr: 1 }} /> Buy Now
         </StyledButton>
       </Stack>
